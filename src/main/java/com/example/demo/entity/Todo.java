@@ -18,8 +18,10 @@ public class Todo {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String description;
 
     private boolean done;
