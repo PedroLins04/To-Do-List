@@ -43,7 +43,15 @@ class DemoApplicationTests {
     }
 
     @Test
-    void testCreateTodoFailure() {
+    void testCreateTodoFailure() throws Exception {
+        mockMvc.perform(post("/todos")
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                    "name": "todo 1",
+                                    "description":
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
     }
-
 }
