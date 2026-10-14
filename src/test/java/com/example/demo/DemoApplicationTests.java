@@ -95,6 +95,13 @@ class DemoApplicationTests {
                 .andExpect(jsonPath("$.description").value("Description 2"));
     }
 
+    @Test
+    void testFindTodoByIdFailure() throws Exception {
+        mockMvc.perform(get("/todos/99999999"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Id not found"));
+    }
+
 
     @Test
     void testUpdateTodoSuccess() throws Exception {
@@ -141,6 +148,24 @@ class DemoApplicationTests {
                 .andExpect(jsonPath("$.priority").value(2));
     }
 
+
+    @Test
+    void testUpdateTodoNotFound() throws Exception {
+        mockMvc.perform(put("/todos/999999")
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                    "name": "Todo updated",
+                                    "description": "Updated Description",
+                                    "done": true,
+                                    "priority": 2
+                                }
+                                """))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Id not found"));
+    }
+
+
     @Test
     void testDeleteTodoSuccess() throws Exception {
         MvcResult result = mockMvc.perform(post("/todos")
@@ -164,6 +189,13 @@ class DemoApplicationTests {
 
         mockMvc.perform(delete("/todos/" + id))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testDeleteTodoNotFound() throws Exception {
+        mockMvc.perform(delete("/todos/99999999"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Id not found"));
     }
 
 
