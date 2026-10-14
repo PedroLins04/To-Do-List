@@ -89,9 +89,9 @@ A conexão com o banco usa variáveis de ambiente (`application.properties`):
 
 | Variável | Descrição | Exemplo |
 |---|---|---|
-| `DB_URL` | URL JDBC do PostgreSQL | `jdbc:postgresql://localhost:5432/todos` |
-| `DB_USERNAME` | Usuário do banco | `postgres` |
-| `DB_PASSWORD` | Senha do banco | `postgres` |
+| `DB_URL` | URL JDBC do PostgreSQL | `jdbc:postgresql://localhost:5432/DB_NAME` |
+| `DB_USERNAME` | Usuário do banco | `DB_USERNAME` |
+| `DB_PASSWORD` | Senha do banco | `DB_PASSWORD` |
 
 Configurações relevantes:
 
@@ -113,9 +113,9 @@ git clone <url-do-repositorio>
 cd demo
  
 # 2. Definir as variáveis de ambiente (Linux/macOS)
-export DB_URL=jdbc:postgresql://localhost:5432/todos
-export DB_USERNAME=postgres
-export DB_PASSWORD=postgres
+export DB_URL=jdbc:postgresql://localhost:5432/DB_NAME
+export DB_USERNAME=DB_USERNAME
+export DB_PASSWORD=DB_PASSWORD
  
 # 3. Rodar a aplicação
 ./mvnw spring-boot:run
