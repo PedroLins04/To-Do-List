@@ -189,6 +189,10 @@ class DemoApplicationTests {
 
         mockMvc.perform(delete("/todos/" + id))
                 .andExpect(status().isOk());
+
+        mockMvc.perform(get("/todos/" + id))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Id not found"));
     }
 
     @Test
