@@ -5,12 +5,11 @@ import com.example.demo.service.TodoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/todos")
 public class TodoController {
-    private TodoService todoService;
+    private final TodoService todoService;
 
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
@@ -27,13 +26,13 @@ public class TodoController {
     }
 
     @GetMapping("{id}")
-    Optional<Todo> findById(@PathVariable Long id) {
+    Todo findById(@PathVariable Long id) {
         return todoService.findById(id);
     }
 
-    @PutMapping
-    List<Todo> update(@RequestBody Todo todo) {
-        return todoService.update(todo);
+    @PutMapping("{id}")
+    Todo update(@PathVariable Long id, @RequestBody Todo todo) {
+        return todoService.update(id, todo);
     }
 
     @DeleteMapping("{id}")

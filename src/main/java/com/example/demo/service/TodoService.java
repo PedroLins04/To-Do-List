@@ -2,11 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Todo;
 import com.example.demo.repository.TodoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TodoService {
@@ -28,18 +28,27 @@ public class TodoService {
         return todoRepository.findAll(sort);
     }
 
-    public Optional<Todo> findById(Long id) {
-        return todoRepository.findById(id);
+    public Todo findById(Long id) {
+        return getTodoOrThrow(id);
     }
 
-    public List<Todo> update(Todo todo) {
-        todoRepository.save(todo);
-        return list();
+    public Todo update(Long id, Todo todo) {
+        Todo obj = getTodoOrThrow(id);
+        obj.setName(todo.getName());
+        obj.setDescription(todo.getDescription());
+        obj.setDone(todo.isDone());
+        obj.setPriority(todo.getPriority());
+        return todoRepository.save(obj);
     }
 
     public List<Todo> delete(Long id) {
+        getTodoOrThrow(id);
         todoRepository.deleteById(id);
         return list();
+    }
+
+    private Todo getTodoOrThrow(Long id) {
+        return todoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found"));
     }
 
 }
