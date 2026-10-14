@@ -1,134 +1,151 @@
-# ToDo API — Java & Spring Boot
+# Todo API
 
-API REST para gerenciamento de tarefas (*To-Do List*), desenvolvida como projeto prático durante meus estudos em desenvolvimento back-end.
+API REST para gerenciamento de tarefas (to-dos), construída com **Spring Boot**, **Spring Data JPA**, **PostgreSQL** e migrações com **Flyway**.
 
-O projeto aplica conceitos de arquitetura REST, persistência de dados, gerenciamento de banco de dados e testes automatizados, utilizando o ecossistema Java e Spring.
+## Tecnologias
 
-## Tecnologias utilizadas
+| Categoria | Tecnologia |
+|---|---|
+| Linguagem | Java 25 |
+| Framework | Spring Boot 4.1.1 |
+| Persistência | Spring Data JPA / Hibernate |
+| Banco (produção) | PostgreSQL |
+| Banco (testes) | H2 em memória |
+| Migrações | Flyway 13.5.0 (`flyway-core` + `flyway-database-postgresql`) |
+| Documentação | springdoc-openapi 3.1.1 (Swagger UI) |
+| Utilitários | Lombok, Spring Boot DevTools |
+| Testes | JUnit 5, Spring Boot Test, MockMvc |
+| Build | Maven |
 
-- **Java 25** — linguagem utilizada no desenvolvimento da aplicação.
-- **Spring Boot 4.1.1** — configuração e estrutura principal do projeto.
-- **Spring Web MVC** — criação dos endpoints REST e tratamento de requisições HTTP.
-- **Spring Data JPA** — persistência e acesso aos dados por meio da abstração JPA.
-- **PostgreSQL** — banco de dados relacional.
-- **H2 Database** — banco de dados em memória, disponível para desenvolvimento e testes.
-- **Flyway** — controle de versão e gerenciamento de migrações do banco de dados.
-- **Springdoc OpenAPI / Swagger UI** — documentação interativa da API.
-- **JUnit 5** — estrutura de testes automatizados.
-- **MockMvc** — simulação de requisições HTTP e validação dos endpoints.
-- **Jackson** — serialização e desserialização de objetos JSON.
-- **Lombok** — redução de código repetitivo em classes Java.
-- **Maven** — gerenciamento de dependências e build do projeto.
-- **Spring Boot DevTools** — recursos para agilizar o ciclo de desenvolvimento.
+## Estrutura do projeto
 
-## Funcionalidades
+```
+com.example.demo
+├── DemoApplication
+├── controller
+│   └── TodoController          # Endpoints REST (/todos)
+├── service
+│   └── TodoService             # Regras de negócio
+├── repository
+│   └── TodoRepository          # JpaRepository<Todo, Long>
+├── entity
+│   └── Todo                    # Entidade JPA (tabela "todos")
+└── ExceptionHandler
+    └── GlobalExceptionHandler  # Tratamento global de erros
+```
 
-A API permite realizar operações CRUD (*Create, Read, Update, Delete*) sobre tarefas:
+Arquitetura em camadas: **Controller → Service → Repository → Banco de dados**.
 
-| Método | Endpoint | Funcionalidade |
+## Modelo de dados
+
+Entidade `Todo` (tabela `todos`):
+
+| Campo | Tipo | Obrigatório | Descrição |
+|---|---|---|---|
+| `id` | `Long` | gerado | Chave primária (auto incremento) |
+| `name` | `String` | sim | Nome da tarefa |
+| `description` | `String` | sim | Descrição da tarefa |
+| `done` | `boolean` | sim | Indica se foi concluída |
+| `priority` | `int` | sim | Prioridade da tarefa |
+
+O esquema é criado pelo Flyway (`V1__create_todo_table.sql`). O Hibernate está com `ddl-auto=none`, ou seja, **não** altera o banco.
+
+## Endpoints
+
+Base path: `/todos`
+
+| Método | Rota | Descrição | Retorno |
+|---|---|---|---|
+| `POST` | `/todos` | Cria uma tarefa | Lista de todas as tarefas |
+| `GET` | `/todos` | Lista todas as tarefas | Lista de tarefas |
+| `GET` | `/todos/{id}` | Busca tarefa por id | Tarefa |
+| `PUT` | `/todos/{id}` | Atualiza uma tarefa | Tarefa atualizada |
+| `DELETE` | `/todos/{id}` | Remove uma tarefa | Lista de tarefas restantes |
+
+### Exemplo de corpo (POST / PUT)
+
+```json
+{
+  "name": "Estudar Spring Boot",
+  "description": "Revisar controllers e services",
+  "done": false,
+  "priority": 1
+}
+```
+
+### Tratamento de erros
+
+O `GlobalExceptionHandler` (`@RestControllerAdvice`) converte `EntityNotFoundException` em **404 Not Found**, com a mensagem da exceção no corpo da resposta (ex.: `Id not found`). JSON malformado resulta em **400 Bad Request** (comportamento padrão do Spring).
+
+## Documentação interativa (Swagger)
+
+Com a aplicação rodando, acesse:
+
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+## Configuração
+
+A conexão com o banco usa variáveis de ambiente (`application.properties`):
+
+| Variável | Descrição | Exemplo |
 |---|---|---|
-| `POST` | `/todos` | Criar uma tarefa |
-| `GET` | `/todos` | Listar todas as tarefas |
-| `GET` | `/todos/{id}` | Buscar tarefa por ID |
-| `PUT` | `/todos` | Atualizar uma tarefa |
-| `DELETE` | `/todos/{id}` | Excluir uma tarefa |
+| `DB_URL` | URL JDBC do PostgreSQL | `jdbc:postgresql://localhost:5432/todos` |
+| `DB_USERNAME` | Usuário do banco | `postgres` |
+| `DB_PASSWORD` | Senha do banco | `postgres` |
 
-Cada tarefa contém informações como nome, descrição, status de conclusão e prioridade.
+Configurações relevantes:
 
-## Testes automatizados
-
-O projeto utiliza JUnit e MockMvc para testar o comportamento dos endpoints, verificando:
-
-- Criação de tarefas.
-- Tratamento de requisições com JSON inválido.
-- Busca por identificador.
-- Atualização de tarefas.
-- Exclusão de tarefas.
-- Códigos HTTP e conteúdo das respostas JSON.
-
-## Persistência e banco de dados
-
-A aplicação utiliza Spring Data JPA para facilitar a comunicação com o banco de dados relacional.
-
-O PostgreSQL é incluído como banco de dados de execução, enquanto o H2 está disponível para cenários de desenvolvimento e testes, conforme a configuração utilizada.
-
-O Flyway é utilizado para gerenciar migrações e manter o esquema do banco de dados versionado.
-
-## Documentação da API
-
-O projeto inclui Springdoc OpenAPI e Swagger UI para documentar e explorar os endpoints de forma interativa.
-
-Com a aplicação em execução, a interface geralmente fica disponível em:
-
-`http://localhost:8080/swagger-ui/index.html`
-
-A documentação OpenAPI pode ser acessada em:
-
-`http://localhost:8080/v3/api-docs`
-
+- `spring.jpa.hibernate.ddl-auto=none`: o esquema é responsabilidade do Flyway
+- `spring.flyway.enabled=true`
+- `spring.flyway.baseline-on-migrate=true`: permite aplicar o Flyway em bancos já existentes
 ## Como executar
 
-**Pré-requisitos**
+### Pré-requisitos
 
-- JDK 25.
-- Maven ou Maven Wrapper.
-- PostgreSQL configurado, caso seja o banco selecionado pela aplicação.
-
-**1. Clone o repositório**
-
-```bash
-git clone <URL_DO_REPOSITORIO>
-```
-
-**2. Entre na pasta do projeto**
+- JDK 25
+- Maven (ou o wrapper `./mvnw`)
+- PostgreSQL em execução, com um banco criado
+### Passos
 
 ```bash
+# 1. Clonar o repositório
+git clone <url-do-repositorio>
 cd demo
-```
-
-**3. Configure a conexão com o banco de dados**
-
-Defina as propriedades necessárias em `application.properties` ou por variáveis de ambiente. Não publique senhas ou credenciais no repositório.
-
-**4. Execute a aplicação**
-
-Windows:
-
-```bash
-.\mvnw.cmd spring-boot:run
-```
-
-Linux/macOS:
-
-```bash
+ 
+# 2. Definir as variáveis de ambiente (Linux/macOS)
+export DB_URL=jdbc:postgresql://localhost:5432/todos
+export DB_USERNAME=postgres
+export DB_PASSWORD=postgres
+ 
+# 3. Rodar a aplicação
 ./mvnw spring-boot:run
 ```
 
-**5. Execute os testes**
+No Windows (PowerShell):
 
-Windows:
-
-```bash
-.\mvnw.cmd test
+```powershell
+$env:DB_URL="jdbc:postgresql://localhost:5432/DB_NAME"
+$env:DB_USERNAME="DB_USERNAME"
+$env:DB_PASSWORD="DB_PASSWORD"
+./mvnw spring-boot:run
 ```
 
-Linux/macOS:
+Na primeira execução, o Flyway cria a tabela `todos` automaticamente.
+
+## Testes
+
+Os testes de integração (`DemoApplicationTests`) usam `@SpringBootTest` + `MockMvc` com **H2 em memória** (`spring.datasource.url=jdbc:h2:mem:testDB` nas propriedades de teste). Antes de cada teste, a tabela é limpa com `deleteAll()`.
 
 ```bash
 ./mvnw test
 ```
 
-## Conceitos praticados
+Cenários cobertos:
 
-- Desenvolvimento de APIs REST com Java e Spring Boot.
-- Operações CRUD.
-- Persistência de dados com JPA.
-- Integração com banco de dados relacional.
-- Migrações de esquema com Flyway.
-- Serialização e desserialização JSON.
-- Testes automatizados de endpoints.
-- Documentação de APIs com OpenAPI e Swagger UI.
-- Gerenciamento de dependências com Maven.
+- Criar tarefa (sucesso e JSON inválido → 400)
+- Buscar por id (sucesso e id inexistente → 404)
+- Atualizar (sucesso e id inexistente → 404)
+- Excluir (sucesso e id inexistente → 404)
 
 ## Autor
 
@@ -139,3 +156,6 @@ Linux/macOS:
 ---
 
 Projeto desenvolvido para fins educacionais e para consolidar conhecimentos em desenvolvimento back-end com Java e Spring Boot.
+
+
+
