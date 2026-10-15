@@ -32,7 +32,10 @@
               class="navbar-brand p-2 me-0 d-flex align-items-center"
               href="index.html"
             >
-              <i class="bi bi-clipboard-data-fill fs-2 text-white me-2"></i>
+              <i
+                class="bi bi-clipboard-data-fill fs-2 me-2"
+                style="color: #8ed5ff"
+              ></i>
               <span class="logo text-white fw-bold fs-4"
                 >KeepThe<span style="color: #8ed5ff; font-size: larger"
                   >Flow</span
@@ -288,7 +291,23 @@
                 ></textarea>
               </div>
 
-              <div class="form-check">
+              <div>
+                <label for="prioridadeTarefa" class="form-label"
+                  >Prioridade</label
+                >
+                <select
+                  class="form-control form-control-sm"
+                  id="prioridadeTarefa"
+                >
+                  <option>Selecione a prioridade</option>
+                  <option value="1">Baixa</option>
+                  <option value="2">Média</option>
+                  <option value="3">Alta</option>
+                  <option value="4">Urgente</option>
+                </select>
+              </div>
+
+              <div class="form-check mt-4 ms-1">
                 <input
                   class="form-check-input"
                   type="checkbox"
