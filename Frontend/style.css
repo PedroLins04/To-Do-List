@@ -3,15 +3,13 @@
 :root {
   --azul: #0e2d8a;
   --azul-hover: #3c8be6;
-  --texto: #0c1e3d;
   --borda: #e2e8f0;
-  --fundo-coluna: #f4f7fc;
 }
 
 body {
   min-height: 100vh;
   padding-top: 100px;
-  color: var(--texto);
+  color: #0c1e3d;
   background: linear-gradient(25deg, #1f202e, #1629d4);
   background-attachment: fixed;
 }
@@ -215,9 +213,10 @@ body {
 
 .task-card {
   padding: 1rem;
-  border: 1px solid var(--borda);
+  border: 2px solid var(--borda);
   border-radius: 14px;
-  background: #5f5f5f9d;
+  background: linear-gradient(25deg, #2e4eb4, #010a61);
+  color: #fff;
   box-shadow: 0 3px 10px #102c5b08;
   cursor: grab;
   transition:
@@ -245,7 +244,7 @@ body {
 }
 
 .task-card p {
-  color: #64748b;
+  color: #ffffff;
   font-size: 0.88rem;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -265,7 +264,7 @@ body {
   border: none;
   border-radius: 8px;
   background: #f1f5f9;
-  color: var(--texto);
+  color: #0c1e3d;
 }
 
 .task-actions button:hover {

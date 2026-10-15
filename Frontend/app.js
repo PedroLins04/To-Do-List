@@ -26,38 +26,93 @@ function exibirTarefas(tarefas) {
   listaPendentes.replaceChildren();
   listaConcluidas.replaceChildren();
 
+  const prioridades = {
+    1: { nome: "Baixa", classe: "text-bg-info" },
+    2: { nome: "Média", classe: "text-bg-warning" },
+    3: { nome: "Alta", classe: "text-bg-danger" },
+    4: { nome: "Urgente", classe: "text-bg-dark" },
+  };
+
   tarefas.forEach((tarefa) => {
     const card = document.createElement("article");
-    card.classList.add("card", "mb-3");
+    card.classList.add("task-card");
 
-    const cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
+    const header = document.createElement("div");
+    header.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "align-items-start",
+      "gap-2",
+      "mb-2",
+    );
 
-    const name = document.createElement("h5");
-    name.classList.add("card-title");
-    name.textContent = tarefa.titulo;
+    const name = document.createElement("h3");
+    name.classList.add("mb-0");
+    name.textContent = tarefa.name;
 
-    const description = document.createElement("p");
-    description.classList.add("card-text");
-    description.textContent = tarefa.descricao;
-
-    const priorities = {
-      1: { nome: "Baixa", classe: "text-bg-success" },
-      2: { nome: "Média", classe: "text-bg-warning" },
-      3: { nome: "Alta", classe: "text-bg-danger" },
-      4: { nome: "Urgente", classe: "text-bg-dark" },
-    };
+    const prioridade = prioridades[tarefa.priority];
 
     const priority = document.createElement("span");
-    priority.classList.add("badge", "rounded-pill");
+    priority.classList.add(
+      "badge",
+      "rounded-pill",
+      prioridade?.classe ?? "text-bg-secondary",
+    );
+    priority.textContent = prioridade?.nome ?? "Sem prioridade";
 
-    priority.classList.add(priorities[tarefa.priority].classe);
-    priority.textContent = priorities[tarefa.priority].nome;
+    header.append(name, priority);
 
-    cardBody.appendChild(name);
-    cardBody.appendChild(description);
-    cardBody.appendChild(priority);
-    card.appendChild(cardBody);
+    const description = document.createElement("p");
+    description.classList.add("mb-3");
+    description.textContent =
+      tarefa.description || "Nenhuma descrição informada.";
+
+    const footer = document.createElement("div");
+    footer.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "align-items-center",
+      "gap-2",
+      "pt-2",
+      "border-top",
+    );
+
+    const status = document.createElement("small");
+    status.classList.add("text-body-white", "fw-semibold");
+    if (tarefa.done) {
+      status.classList.add("text-bg-success", "px-2", "py-1", "rounded");
+    } else {
+      status.classList.add("text-bg-warning", "px-2", "py-1", "rounded");
+    }
+    status.textContent = tarefa.done ? "Concluída" : "Pendente";
+
+    const actions = document.createElement("div");
+    actions.classList.add("d-flex", "gap-2");
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-info",
+      "fw-semibold",
+    );
+    editButton.textContent = "Editar";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-danger",
+      "fw-bold",
+    );
+    deleteButton.textContent = "Excluir";
+
+    actions.append(editButton, deleteButton);
+    footer.append(status, actions);
+
+    card.append(header, description, footer);
 
     if (tarefa.done) {
       listaConcluidas.appendChild(card);
