@@ -18,6 +18,7 @@ async function buscarTarefas() {
     const tarefas = await response.json();
     exibirTarefas(tarefas);
     atualizarContadores(tarefas);
+    return tarefas;
   } catch (error) {
     console.error("Erro ao buscar tarefas:", error);
 
@@ -38,6 +39,8 @@ function exibirTarefas(tarefas) {
 
   tarefas.forEach((tarefa) => {
     const card = document.createElement("article");
+    card.draggable = true;
+    card.dataset.id = tarefa.id;
     card.classList.add("task-card");
 
     const header = document.createElement("div");
@@ -286,4 +289,63 @@ async function deletarTarefa(tarefaId) {
 
   await buscarTarefas();
 }
+
+//DRAG AND DROP
+
+document.addEventListener("dragstart", (e) => {
+  const card = e.target.closest("[data-id]");
+
+  if (!card || !e.dataTransfer) return;
+
+  e.target.classList.add("dragging");
+
+  e.dataTransfer.setData("text/plain", e.target.dataset.id);
+});
+
+document.addEventListener("dragend", (e) => {
+  e.target.classList.remove("dragging");
+});
+
+const listas = [listaPendentes, listaConcluidas];
+
+listas.forEach((lista) => {
+  lista.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  lista.addEventListener("drop", async (e) => {
+    e.preventDefault();
+
+    if (!e.dataTransfer) {
+      console.error("Evento sem dataTransfer:", e);
+      return;
+    }
+
+    const tarefaId = Number(e.dataTransfer.getData("text/plain"));
+
+    if (!Number.isFinite(tarefaId)) {
+      console.error("ID inválido:", tarefaId);
+      return;
+    }
+
+    const tarefas = await buscarTarefas();
+    if (!tarefas) return;
+
+    const tarefa = tarefas.find((t) => t.id === tarefaId);
+    if (!tarefa) return;
+
+    const concluida = lista === listaConcluidas;
+
+    if (tarefa.done === concluida) return;
+
+    const tarefaAtualizada = {
+      ...tarefa,
+      done: concluida,
+    };
+
+    await atualizarTarefa(tarefaId, tarefaAtualizada);
+    await buscarTarefas();
+  });
+});
+
 buscarTarefas();
