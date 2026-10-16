@@ -110,6 +110,9 @@ function exibirTarefas(tarefas) {
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
+    deleteButton.addEventListener("click", () => {
+      deletarTarefa(tarefa.id);
+    });
     deleteButton.classList.add(
       "btn",
       "btn-sm",
@@ -234,18 +237,19 @@ function fecharModal() {
 }
 
 const modalElement = document.querySelector("#modalTarefa");
-
+//clearing the modal EventListener
 modalElement.addEventListener("hidden.bs.modal", () => {
   limparFormulario();
 });
 
+//preparing the modal for crate a new task
 function prepararModalCreate() {
   document.querySelector("#tarefaId").value = "";
-
   document.querySelector("#modalTarefaLabel").textContent = "Nova tarefa";
   document.querySelector("#btnModalTarefa").textContent = "Salvar tarefa";
 }
 
+//preparing the modal for the task you'll edit
 function pepararModalEdit(tarefa) {
   document.querySelector("#tarefaId").value = tarefa.id;
   document.querySelector("#name").value = tarefa.name;
@@ -257,4 +261,29 @@ function pepararModalEdit(tarefa) {
   document.querySelector("#btnModalTarefa").textContent = "Atualizar tarefa";
 }
 
+async function deletarTarefa(tarefaId) {
+  if (tarefaId == null || tarefaId === undefined) {
+    console.log("Erro ao buscar ID da tarefa.");
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/${tarefaId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao deletar tarefa");
+    }
+
+    const tarefasAtualizadas = await response.json();
+
+    tarefas = tarefasAtualizadas;
+    exibirTarefas(tarefas);
+    atualizarContadores(tarefas);
+  } catch (error) {
+    console.error("Erro ao deletar tarefa:", error);
+  }
+
+  await buscarTarefas();
+}
 buscarTarefas();
