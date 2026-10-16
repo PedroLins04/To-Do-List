@@ -124,14 +124,14 @@ footer {
 }
 
 .btn-lupa {
-  background-color: #8c8f9b80;
-  color: #04155c;
+  background-color: #02529cb7;
+  color: #fff;
   font-weight: 600;
   font-size: large;
 }
 
 .btn-lupa:hover {
-  background: #b2b4ba80;
+  background: #d3d3d4f3;
   color: var(--azul-hover);
 }
 
@@ -143,7 +143,7 @@ footer {
 .search-form .input-group {
   overflow: hidden;
   border-radius: 30px;
-  background: #ffffff;
+  background: #ffffffd0;
   box-shadow: 0 3px 12px #00000012;
 }
 
@@ -248,8 +248,8 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  min-height: 180px;
-  padding: 0.2rem;
+  min-height: 90%;
+  padding: 0.5rem;
   border-radius: 12px;
   transition: 0.2s;
 }
@@ -304,6 +304,7 @@ footer {
 
 .task-list.drag-over {
   background: #0059ff8c;
+  border: 2px dashed #ffffff79;
 }
 
 /* ESTADO VAZIO */
