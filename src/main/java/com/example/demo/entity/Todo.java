@@ -18,6 +18,9 @@ public class Todo {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Column(nullable = false)
     private String name;
 
