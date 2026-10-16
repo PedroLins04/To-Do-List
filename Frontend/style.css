@@ -168,6 +168,12 @@ body {
   font-size: 1.4rem;
 }
 
+.modalTexts {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: larger;
+}
+
 /* KANBAN */
 .kanban-column {
   min-width: 0;

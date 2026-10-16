@@ -274,7 +274,7 @@
               <input type="hidden" id="tarefaId" />
 
               <div class="mb-3">
-                <label for="name" class="form-label"> Título </label>
+                <label for="name" class="form-label modalTexts"> Título </label>
 
                 <input
                   type="text"
@@ -287,7 +287,9 @@
               </div>
 
               <div class="mb-3">
-                <label for="description" class="form-label"> Descrição </label>
+                <label for="description" class="form-label modalTexts">
+                  Descrição
+                </label>
 
                 <textarea
                   class="form-control"
@@ -298,9 +300,13 @@
               </div>
 
               <div>
-                <label for="priority" class="form-label">Prioridade</label>
+                <label for="priority" class="form-label modalTexts"
+                  >Prioridade</label
+                >
                 <select class="form-control form-control-sm" id="priority">
-                  <option>Selecione a prioridade</option>
+                  <option value="" disabled selected>
+                    Selecione a prioridade
+                  </option>
                   <option value="1">Baixa</option>
                   <option value="2">Média</option>
                   <option value="3">Alta</option>
@@ -310,7 +316,7 @@
               <div class="form-check mt-4 ms-1">
                 <input class="form-check-input" type="checkbox" id="done" />
 
-                <label class="form-check-label" for="done">
+                <label class="form-check-label modalTexts" for="done">
                   Marcar como concluída
                 </label>
               </div>
