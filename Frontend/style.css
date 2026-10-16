@@ -215,7 +215,7 @@ body {
   padding: 1rem;
   border: 2px solid var(--borda);
   border-radius: 14px;
-  background: linear-gradient(0deg, #0f1137, #08179c);
+  background: linear-gradient(0deg, #0e3a477c, #164d9ea1);
   color: #fff;
   box-shadow: 0 3px 10px #102c5b08;
   cursor: grab;

@@ -6,8 +6,6 @@
 
     <title>KeepTheFlow | Gerenciador de tarefas</title>
 
-    <link rel="shortcut icon" href="imagens/logo-keeptheflow.png" />
-
     <!-- Bootstrap local -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 
@@ -255,12 +253,12 @@
               <input type="hidden" id="tarefaId" />
 
               <div class="mb-3">
-                <label for="tituloTarefa" class="form-label"> Título </label>
+                <label for="name" class="form-label"> Título </label>
 
                 <input
                   type="text"
                   class="form-control"
-                  id="tituloTarefa"
+                  id="name"
                   maxlength="120"
                   placeholder="Ex.: Implementar autenticação"
                   required
@@ -268,26 +266,19 @@
               </div>
 
               <div class="mb-3">
-                <label for="descricaoTarefa" class="form-label">
-                  Descrição
-                </label>
+                <label for="description" class="form-label"> Descrição </label>
 
                 <textarea
                   class="form-control"
-                  id="descricaoTarefa"
+                  id="description"
                   rows="3"
                   placeholder="Descreva a tarefa..."
                 ></textarea>
               </div>
 
               <div>
-                <label for="prioridadeTarefa" class="form-label"
-                  >Prioridade</label
-                >
-                <select
-                  class="form-control form-control-sm"
-                  id="prioridadeTarefa"
-                >
+                <label for="priority" class="form-label">Prioridade</label>
+                <select class="form-control form-control-sm" id="priority">
                   <option>Selecione a prioridade</option>
                   <option value="1">Baixa</option>
                   <option value="2">Média</option>
@@ -297,13 +288,9 @@
               </div>
 
               <div class="form-check mt-4 ms-1">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="tarefaConcluida"
-                />
+                <input class="form-check-input" type="checkbox" id="done" />
 
-                <label class="form-check-label" for="tarefaConcluida">
+                <label class="form-check-label" for="done">
                   Marcar como concluída
                 </label>
               </div>

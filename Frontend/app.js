@@ -56,6 +56,7 @@ function exibirTarefas(tarefas) {
     priority.classList.add(
       "badge",
       "rounded-pill",
+      "fs-6",
       prioridade?.classe ?? "text-bg-secondary",
     );
     priority.textContent = prioridade?.nome ?? "Sem prioridade";
@@ -133,5 +134,45 @@ function atualizarContadores(tarefas) {
 
   totalConcluidas.textContent = tarefas.filter((tarefa) => tarefa.done).length;
 }
+
+async function adicionarTarefa(tarefa) {
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tarefa),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao adicionar tarefa");
+    }
+
+    const tarefasAtualizadas = await response.json();
+
+    tarefas = tarefasAtualizadas;
+    exibirTarefas(tarefas);
+  } catch (error) {
+    console.error("Erro ao adicionar tarefa:", error);
+  }
+}
+
+const formTarefa = document.querySelector("#formTarefa");
+
+formTarefa.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const tarefa = {
+    name: document.querySelector("#name").value.trim(),
+    description: document.querySelector("#description").value.trim(),
+    priority: Number(document.querySelector("#priority").value),
+    done: document.querySelector("#done").checked,
+  };
+
+  console.log("Tarefa enviada:", tarefa);
+
+  await adicionarTarefa(tarefa);
+});
 
 buscarTarefas();
