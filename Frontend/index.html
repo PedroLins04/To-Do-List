@@ -344,6 +344,49 @@
       </div>
     </div>
 
+    <!-- MODAL DE DELETAR -->
+    <div
+      class="modal fade"
+      id="modalExcluir"
+      tabindex="-1"
+      aria-labelledby="modalExcluirLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+          <form id="formExcluir">
+            <div class="modal-header">
+              <h2 class="modal-title fs-5 fw-bold" id="modalTarefaLabel">
+                Excluir tarefa
+              </h2>
+            </div>
+
+            <div class="modal-body">
+              <p class="modalTexts">Tem certeza que deseja apagar a tarefa?</p>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-outline-danger fw-bolder"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="submit"
+                class="btn btn-outline-info fw-bolder"
+                id="btnModalExcluir"
+              >
+                Excluir tarefa
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- RODAPÉ -->
     <footer class="text-center text-white py-3" id="sobre">
       <p class="small mb-0">

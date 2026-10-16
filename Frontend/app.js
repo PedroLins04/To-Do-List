@@ -2,6 +2,7 @@ const API_URL = "http://localhost:8080/todos";
 
 const listaPendentes = document.getElementById("listaPendentes");
 const listaConcluidas = document.getElementById("listaConcluidas");
+let tarefaSelecionada = null;
 
 document.querySelector("#btnNovaTarefa").addEventListener("click", () => {
   prepararModalCreate();
@@ -114,9 +115,8 @@ function exibirTarefas(tarefas) {
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
-    deleteButton.addEventListener("click", () => {
-      deletarTarefa(tarefa.id);
-    });
+    deleteButton.setAttribute("data-bs-toggle", "modal");
+    deleteButton.setAttribute("data-bs-target", "#modalExcluir");
     deleteButton.classList.add(
       "btn",
       "btn-sm",
@@ -124,6 +124,10 @@ function exibirTarefas(tarefas) {
       "fw-bold",
     );
     deleteButton.textContent = "Excluir";
+
+    deleteButton.addEventListener("click", () => {
+      tarefaSelecionada = tarefa.id;
+    });
 
     actions.append(editButton, deleteButton);
     footer.append(status, actions);
@@ -393,5 +397,20 @@ formularioPesquisa.addEventListener("submit", async (e) => {
 function limparBarra() {
   document.querySelector("#inputPesquisa").value = "";
 }
+
+const formExcluir = document.getElementById("formExcluir");
+
+formExcluir.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (tarefaSelecionada === null) return;
+
+  await deletarTarefa(tarefaSelecionada);
+
+  const modalExcluir = document.getElementById("modalExcluir");
+  const modal = bootstrap.Modal.getInstance(modalExcluir);
+  modal.hide();
+  tarefaSelecionada = null;
+});
 
 buscarTarefas();
