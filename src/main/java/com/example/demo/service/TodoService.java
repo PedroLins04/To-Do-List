@@ -32,13 +32,14 @@ public class TodoService {
         return getTodoOrThrow(id);
     }
 
-    public Todo update(Long id, Todo todo) {
+    public List <Todo> update(Long id, Todo todo) {
         Todo obj = getTodoOrThrow(id);
         obj.setName(todo.getName());
         obj.setDescription(todo.getDescription());
         obj.setDone(todo.isDone());
         obj.setPriority(todo.getPriority());
-        return todoRepository.save(obj);
+        todoRepository.save(obj);
+        return list();
     }
 
     public List<Todo> delete(Long id) {

@@ -3,6 +3,10 @@ const API_URL = "http://localhost:8080/todos";
 const listaPendentes = document.getElementById("listaPendentes");
 const listaConcluidas = document.getElementById("listaConcluidas");
 
+document.querySelector("#btnNovaTarefa").addEventListener("click", () => {
+  prepararModalCreate();
+});
+
 async function buscarTarefas() {
   try {
     const response = await fetch(API_URL);
@@ -92,6 +96,11 @@ function exibirTarefas(tarefas) {
 
     const editButton = document.createElement("button");
     editButton.type = "button";
+    editButton.addEventListener("click", () => {
+      pepararModalEdit(tarefa);
+    });
+    editButton.setAttribute("data-bs-toggle", "modal");
+    editButton.setAttribute("data-bs-target", "#modalTarefa");
     editButton.classList.add(
       "btn",
       "btn-sm",
@@ -133,6 +142,10 @@ function atualizarContadores(tarefas) {
   totalPendentes.textContent = tarefas.filter((tarefa) => !tarefa.done).length;
 
   totalConcluidas.textContent = tarefas.filter((tarefa) => tarefa.done).length;
+
+  countPendentes.textContent = tarefas.filter((tarefa) => !tarefa.done).length;
+
+  countConcluidas.textContent = tarefas.filter((tarefa) => tarefa.done).length;
 }
 
 async function adicionarTarefa(tarefa) {
@@ -150,6 +163,7 @@ async function adicionarTarefa(tarefa) {
     }
 
     const tarefasAtualizadas = await response.json();
+    atualizarContadores(tarefasAtualizadas);
 
     tarefas = tarefasAtualizadas;
     exibirTarefas(tarefas);
@@ -158,8 +172,31 @@ async function adicionarTarefa(tarefa) {
   }
 }
 
-const formTarefa = document.querySelector("#formTarefa");
+async function atualizarTarefa(tarefaId, tarefaAtualizada) {
+  try {
+    const response = await fetch(`${API_URL}/${tarefaId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tarefaAtualizada),
+    });
 
+    if (!response.ok) {
+      throw new Error("Erro ao atualizar tarefa");
+    }
+
+    const tarefasAtualizadas = await response.json();
+
+    tarefas = tarefasAtualizadas;
+    exibirTarefas(tarefas);
+    atualizarContadores(tarefas);
+  } catch (error) {
+    console.error("Erro ao atualizar tarefa:", error);
+  }
+}
+
+const formTarefa = document.querySelector("#formTarefa");
 formTarefa.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -172,7 +209,30 @@ formTarefa.addEventListener("submit", async (event) => {
 
   console.log("Tarefa enviada:", tarefa);
 
-  await adicionarTarefa(tarefa);
+  if (document.querySelector("#tarefaId").value) {
+    const tarefaId = document.querySelector("#tarefaId").value;
+    await atualizarTarefa(tarefaId, tarefa);
+  } else {
+    await adicionarTarefa(tarefa);
+  }
 });
+
+function prepararModalCreate() {
+  document.querySelector("#tarefaId").value = "";
+
+  document.querySelector("#modalTarefaLabel").textContent = "Nova tarefa";
+  document.querySelector("#btnModalTarefa").textContent = "Salvar tarefa";
+}
+
+function pepararModalEdit(tarefa) {
+  document.querySelector("#tarefaId").value = tarefa.id;
+  document.querySelector("#name").value = tarefa.name;
+  document.querySelector("#description").value = tarefa.description;
+  document.querySelector("#priority").value = tarefa.priority;
+  document.querySelector("#done").checked = tarefa.done;
+
+  document.querySelector("#modalTarefaLabel").textContent = "Editar tarefa";
+  document.querySelector("#btnModalTarefa").textContent = "Atualizar tarefa";
+}
 
 buscarTarefas();
