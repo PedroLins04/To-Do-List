@@ -53,7 +53,7 @@ footer {
 }
 
 .navbar-custom .nav-link:hover {
-  color: #26dafa;
+  color: var(--azul-hover);
 }
 
 .navbar-custom .navbar-toggler {
@@ -121,6 +121,18 @@ footer {
 .btn-icon:hover {
   background: #020202c7;
   transition: background 0.2s;
+}
+
+.btn-lupa {
+  background-color: #8c8f9b80;
+  color: #04155c;
+  font-weight: 600;
+  font-size: large;
+}
+
+.btn-lupa:hover {
+  background: #b2b4ba80;
+  color: var(--azul-hover);
 }
 
 /* PESQUISA */
