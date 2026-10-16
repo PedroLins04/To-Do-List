@@ -356,4 +356,42 @@ listas.forEach((lista) => {
   });
 });
 
+async function BuscarPorTexto(texto) {
+  try {
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar tarefas");
+    }
+
+    const tarefas = await response.json();
+    const termo = texto.trim().toLowerCase();
+
+    return tarefas.filter((tarefa) =>
+      tarefa.name?.toLowerCase().includes(termo),
+    );
+  } catch (error) {
+    console.error("Erro ao buscar tarefas:", error);
+    return [];
+  }
+}
+
+const formularioPesquisa = document.getElementById("searchTarefa");
+const inputPesquisa = document.getElementById("inputPesquisa");
+
+formularioPesquisa.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const texto = inputPesquisa.value;
+  const tarefas = await BuscarPorTexto(texto);
+
+  limparBarra();
+  exibirTarefas(tarefas);
+  atualizarContadores(tarefas);
+});
+
+function limparBarra() {
+  document.querySelector("#inputPesquisa").value = "";
+}
+
 buscarTarefas();
