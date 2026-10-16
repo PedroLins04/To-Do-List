@@ -3,7 +3,6 @@
 :root {
   --azul: #0e2d8a;
   --azul-hover: #3c8be6;
-  --borda: #e2e8f0;
 }
 
 body {
@@ -80,8 +79,18 @@ body {
 
 .btn-nova-tarefa {
   padding: 0.75rem 1.2rem;
-  border-radius: 12px;
+  border-radius: 20px;
   white-space: nowrap;
+  background: #fafafa;
+  color: #04155c;
+  font-size: larger;
+  font-weight: 600;
+}
+
+.btn-nova-tarefa:hover {
+  background: #04155c;
+  color: #fafafa;
+  transition: background 0.2s;
 }
 
 .btn-icon {
@@ -213,12 +222,13 @@ body {
 
 .task-card {
   padding: 1rem;
-  border: 2px solid var(--borda);
+  border: 2px solid #ffffff33;
   border-radius: 14px;
-  background: linear-gradient(0deg, #0e3a477c, #164d9ea1);
+  background: linear-gradient(0deg, #1c1e3adc, #113063);
   color: #fff;
   box-shadow: 0 3px 10px #102c5b08;
   cursor: grab;
+  margin-bottom: 0.8rem;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
@@ -238,14 +248,16 @@ body {
 }
 
 .task-card h3 {
-  font-size: 0.98rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 680;
   overflow-wrap: anywhere;
 }
 
 .task-card p {
+  border-bottom: 1px solid #ffffff85;
   color: #ffffff;
-  font-size: 0.88rem;
+  font-size: 1.35rem;
+  font-weight: 400;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }

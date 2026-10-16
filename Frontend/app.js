@@ -34,7 +34,6 @@ function exibirTarefas(tarefas) {
     1: { nome: "Baixa", classe: "text-bg-info" },
     2: { nome: "Média", classe: "text-bg-warning" },
     3: { nome: "Alta", classe: "text-bg-danger" },
-    4: { nome: "Urgente", classe: "text-bg-dark" },
   };
 
   tarefas.forEach((tarefa) => {
@@ -51,7 +50,7 @@ function exibirTarefas(tarefas) {
     );
 
     const name = document.createElement("h3");
-    name.classList.add("mb-0");
+    name.classList.add("mb-0", "fs-10");
     name.textContent = tarefa.name;
 
     const prioridade = prioridades[tarefa.priority];
@@ -68,7 +67,7 @@ function exibirTarefas(tarefas) {
     header.append(name, priority);
 
     const description = document.createElement("p");
-    description.classList.add("mb-3");
+    description.classList.add("mb-2");
     description.textContent =
       tarefa.description || "Nenhuma descrição informada.";
 
@@ -79,7 +78,7 @@ function exibirTarefas(tarefas) {
       "align-items-center",
       "gap-2",
       "pt-2",
-      "border-top",
+      "mt-2",
     );
 
     const status = document.createElement("small");
@@ -215,6 +214,29 @@ formTarefa.addEventListener("submit", async (event) => {
   } else {
     await adicionarTarefa(tarefa);
   }
+  fecharModal();
+});
+
+// Function for clear the form
+function limparFormulario() {
+  document.querySelector("#tarefaId").value = "";
+  document.querySelector("#name").value = "";
+  document.querySelector("#description").value = "";
+  document.querySelector("#priority").value = "1";
+  document.querySelector("#done").checked = false;
+}
+
+// Function for close the modal
+function fecharModal() {
+  const modalElement = document.querySelector("#modalTarefa");
+  const modalInstance = bootstrap.Modal.getInstance(modalElement);
+  modalInstance?.hide(modalElement);
+}
+
+const modalElement = document.querySelector("#modalTarefa");
+
+modalElement.addEventListener("hidden.bs.modal", () => {
+  limparFormulario();
 });
 
 function prepararModalCreate() {

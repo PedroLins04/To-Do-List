@@ -123,12 +123,12 @@
 
         <button
           type="button"
-          class="btn btn-azul btn-nova-tarefa"
+          class="btn btn-nova-tarefa"
           data-bs-toggle="modal"
           data-bs-target="#modalTarefa"
           id="btnNovaTarefa"
         >
-          <i class="bi bi-plus-lg me-1"></i>
+          <i class="bi bi-bookmark-plus-fill"></i>
           Nova tarefa
         </button>
       </section>
@@ -139,10 +139,17 @@
           <div
             class="summary-item rounded-4 shadow-sm p-3 d-flex align-items-center gap-3 h-100"
           >
-            <i class="bi bi-list-task"></i>
+            <i
+              class="bi bi-list-task"
+              style="font-size: 2rem; background: none; color: #fafafa"
+            ></i>
 
             <div class="text-white">
-              <span class="d-block text-white">Total de tarefas</span>
+              <span
+                class="d-block text-white"
+                style="font-size: larger; font-weight: 600"
+                >Total de tarefas</span
+              >
               <strong id="totalTarefas">0</strong>
             </div>
           </div>
@@ -152,10 +159,17 @@
           <div
             class="summary-item rounded-4 shadow-sm p-3 d-flex align-items-center gap-3 h-100"
           >
-            <i class="bi bi-hourglass-split"></i>
+            <i
+              class="bi bi-hourglass-split"
+              style="font-size: 1.7rem; background: none"
+            ></i>
 
             <div class="text-white">
-              <span class="d-block text-white">Pendentes</span>
+              <span
+                class="d-block text-white"
+                style="font-size: larger; font-weight: 600"
+                >Pendentes</span
+              >
               <strong id="totalPendentes">0</strong>
             </div>
           </div>
@@ -165,10 +179,17 @@
           <div
             class="summary-item rounded-4 shadow-sm p-3 d-flex align-items-center gap-3 h-100"
           >
-            <i class="bi bi-check2-circle"></i>
+            <i
+              class="bi bi-check2-circle"
+              style="font-size: 2rem; background: none"
+            ></i>
 
             <div class="text-white">
-              <span class="d-block text-white">Concluídas</span>
+              <span
+                class="d-block text-white"
+                style="font-size: larger; font-weight: 600"
+                >Concluídas</span
+              >
               <strong id="totalConcluidas">0</strong>
             </div>
           </div>
@@ -283,7 +304,6 @@
                   <option value="1">Baixa</option>
                   <option value="2">Média</option>
                   <option value="3">Alta</option>
-                  <option value="4">Urgente</option>
                 </select>
               </div>
 
