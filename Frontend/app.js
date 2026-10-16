@@ -108,6 +108,7 @@ function exibirTarefas(tarefas) {
       "btn-sm",
       "btn-outline-info",
       "fw-semibold",
+      "me-1",
     );
     editButton.textContent = "Editar";
 
@@ -311,10 +312,17 @@ const listas = [listaPendentes, listaConcluidas];
 listas.forEach((lista) => {
   lista.addEventListener("dragover", (e) => {
     e.preventDefault();
+
+    lista.classList.add("drag-over");
+  });
+
+  lista.addEventListener("dragleave", () => {
+    lista.classList.remove("drag-over");
   });
 
   lista.addEventListener("drop", async (e) => {
     e.preventDefault();
+    lista.classList.remove("drag-over");
 
     if (!e.dataTransfer) {
       console.error("Evento sem dataTransfer:", e);

@@ -5,18 +5,33 @@
   --azul-hover: #3c8be6;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
-  min-height: 100vh;
-  padding-top: 100px;
+  padding-top: 75px;
   color: #0c1e3d;
   background: linear-gradient(25deg, #1f202e, #1629d4);
   background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  background-color: #0f0f0f7c;
+  font-weight: 600;
 }
 
 /* NAVBAR */
 .navbar-custom {
   min-height: 84px;
-  background: #00000060;
+  background: #0f0f0fa8;
   backdrop-filter: blur(12px);
   box-shadow: 0 3px 15px #0000000d;
 }
@@ -79,17 +94,18 @@ body {
 
 .btn-nova-tarefa {
   padding: 0.75rem 1.2rem;
+  border: 3px solid #ffffffe8;
   border-radius: 20px;
   white-space: nowrap;
-  background: #fafafa;
-  color: #04155c;
+  background: #04155c;
+  color: #fafafa;
   font-size: larger;
   font-weight: 600;
 }
 
 .btn-nova-tarefa:hover {
-  background: #04155c;
-  color: #fafafa;
+  background: #fafafa;
+  color: #04155c;
   transition: background 0.2s;
 }
 
@@ -210,9 +226,9 @@ body {
   height: 26px;
   padding: 0 0.4rem;
   border-radius: 8px;
-  background: #eeeeee2c;
+  background: #c3c3c421;
   color: #ffff;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
 }
 
@@ -236,6 +252,7 @@ body {
   cursor: grab;
   margin-bottom: 0.8rem;
   transition:
+    transform 0.2s ease,
     border-color 0.2s,
     box-shadow 0.2s;
 }
@@ -247,10 +264,6 @@ body {
 
 .task-card:active {
   cursor: grabbing;
-}
-
-.task-card.dragging {
-  opacity: 0.45;
 }
 
 .task-card h3 {
@@ -277,23 +290,8 @@ body {
   border-top: 1px solid #f0f2f6;
 }
 
-.task-actions button {
-  padding: 0.4rem 0.6rem;
-  border: none;
-  border-radius: 8px;
-  background: #f1f5f9;
-  color: #0c1e3d;
-}
-
-.task-actions button:hover {
-  background: #e0eaff;
-  color: var(--azul);
-}
-
 .task-list.drag-over {
-  background: #e4edff;
-  outline: 2px dashed #8ba9e8;
-  outline-offset: -2px;
+  background: #0059ff8c;
 }
 
 /* ESTADO VAZIO */
