@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.DTO.TodoRequestDTO;
-import com.example.demo.DTO.TodoResponseDTO;
+import com.example.demo.DTO.todo.TodoRequestDTO;
+import com.example.demo.DTO.todo.TodoResponseDTO;
 import com.example.demo.entity.Todo;
 import com.example.demo.repository.TodoRepository;
 import jakarta.persistence.EntityNotFoundException;
