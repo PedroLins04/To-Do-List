@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.DTO.TodoRequestDTO;
+import com.example.demo.DTO.TodoResponseDTO;
 import com.example.demo.entity.Todo;
 import com.example.demo.service.TodoService;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +18,12 @@ public class TodoController {
     }
 
     @PostMapping
-    List<Todo> create(@RequestBody Todo todo) {
-        return todoService.create(todo);
+    List<TodoResponseDTO> create(@RequestBody TodoRequestDTO requestDTO) {
+        return todoService.create(requestDTO);
     }
 
     @GetMapping
-    List<Todo> list() {
+    List<TodoResponseDTO> list() {
         return todoService.list();
     }
 
@@ -31,12 +33,12 @@ public class TodoController {
     }
 
     @PutMapping("{id}")
-    List<Todo> update(@PathVariable Long id, @RequestBody Todo todo) {
-        return todoService.update(id, todo);
+    List<TodoResponseDTO> update(@PathVariable Long id, @RequestBody TodoRequestDTO requestDTO) {
+        return todoService.update(id, requestDTO);
     }
 
     @DeleteMapping("{id}")
-    List<Todo> delete(@PathVariable Long id) {
+    List<TodoResponseDTO> delete(@PathVariable Long id) {
         return todoService.delete(id);
     }
 

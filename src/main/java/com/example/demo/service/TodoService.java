@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.DTO.TodoRequestDTO;
+import com.example.demo.DTO.TodoResponseDTO;
 import com.example.demo.entity.Todo;
 import com.example.demo.repository.TodoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,32 +19,48 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public List<Todo> create(Todo todo) {
+    TodoResponseDTO responseDTO(Todo todo) {
+        return new TodoResponseDTO(
+                todo.getId(),
+                todo.getName(),
+                todo.getDescription(),
+                todo.isDone(),
+                todo.getPriority()
+        );
+    }
+
+    public List<TodoResponseDTO> create(TodoRequestDTO requestDTO) {
+        Todo todo = new Todo(requestDTO.name(), requestDTO.description(), requestDTO.done(), requestDTO.priority());
+
         todoRepository.save(todo);
         return list();
     }
 
-    public List<Todo> list() {
+    public List<TodoResponseDTO> list() {
         Sort sort = Sort.by(Sort.Direction.DESC, "priority")
                 .and(Sort.by(Sort.Direction.ASC, "name"));
-        return todoRepository.findAll(sort);
+
+        return todoRepository.findAll(sort).stream().map(this::responseDTO).toList();
     }
 
     public Todo findById(Long id) {
         return getTodoOrThrow(id);
     }
 
-    public List <Todo> update(Long id, Todo todo) {
+    public List<TodoResponseDTO> update(Long id, TodoRequestDTO requestDTO) {
+
         Todo obj = getTodoOrThrow(id);
-        obj.setName(todo.getName());
-        obj.setDescription(todo.getDescription());
-        obj.setDone(todo.isDone());
-        obj.setPriority(todo.getPriority());
+
+        obj.setName(requestDTO.name());
+        obj.setDescription(requestDTO.description());
+        obj.setDone(requestDTO.done());
+        obj.setPriority(requestDTO.priority());
+
         todoRepository.save(obj);
         return list();
     }
 
-    public List<Todo> delete(Long id) {
+    public List<TodoResponseDTO> delete(Long id) {
         getTodoOrThrow(id);
         todoRepository.deleteById(id);
         return list();
